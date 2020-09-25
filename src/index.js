@@ -20,7 +20,6 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem('weatherHistory', JSON.stringify(weather));
-    console.log("updated local storage");
   });
 
   const getWeather = (e) => {
@@ -32,7 +31,6 @@ const App = () => {
             setError(true),
             setErrorLocation(location) )
           : (
-            console.log("setting weather"),
             setWeather(updateWeather(result)),
             setLocation(''),
             setError(false) )
@@ -52,8 +50,8 @@ const App = () => {
 
   const updateWeather = (element) => {
     // make editable copy of weather
-    console.log(element);
-    let newWeather = weather;
+    // console.log(element);
+    let newWeather = Object.assign([], weather);
     let newElement = deconstructWeatherObject(element)
 
     // check if element is already in history
@@ -69,7 +67,6 @@ const App = () => {
 
     // remove the last element when newWeather is filled up
     if (newWeather.length >= 5) {
-      console.log("too long. poppin'");
       newWeather.pop();
       // setWeather(oldWeather => [ oldWeather[0], oldWeather[1], oldWeather[2], oldWeather[3] ])
     }
