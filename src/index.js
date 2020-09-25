@@ -95,7 +95,7 @@ const App = () => {
       { weather && weather[0] && weather[0].name ?
         <div>
           <span><b>{weather[0].name}</b><br/>
-          <img src={`http://openweathermap.org/img/wn/${weather[0].icon}@2x.png`} alt=""/><br/>
+          <img src={`https://openweathermap.org/img/wn/${weather[0].icon}@2x.png`} alt=""/><br/>
           {weather[0].main}<br/>
           {weather[0].temp}°C<br/>
           {weather[0].wind} m/s
