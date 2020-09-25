@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {render} from 'react-dom';
 
+import Weather from './components/Weather';
 import './styles/index.scss';
 
 const api = {
@@ -20,6 +21,7 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem('weatherHistory', JSON.stringify(weather));
+    changeBackColor(weather[0].main);
   });
 
   const getWeather = (e) => {
@@ -33,7 +35,8 @@ const App = () => {
           : (
             setWeather(updateWeather(result)),
             setLocation(''),
-            setError(false) )
+            setError(false)
+            )
         })
     }
   }
@@ -42,7 +45,7 @@ const App = () => {
     return {
       name: object.name,
       main: object.weather[0].main,
-      temp: object.main.temp,
+      temp: Math.round(object.main.temp),
       wind: object.wind.speed,
       icon: object.weather[0].icon
     }
@@ -75,44 +78,50 @@ const App = () => {
     return newWeather;
   }
 
-  // const getWeatherFromHistory = () => {
-  //   return (history[0]) ?
-  //     setWeather(history[0])
-  //     : <div>make a search to see some weather!</div>
-  // }
+  const changeBackColor = (sky) => {
+    const element = document.getElementById("app");
+
+    if (element.classList.length > 0) { element.classList.remove(element.classList[1]) };
+
+    (sky === "Clear") ? element.classList.add("clear")
+    : (sky === "Clouds") ? element.classList.add("clouds")
+    : (sky === "Rain") ? element.classList.add("rain")
+    : console.log(`The weather doesn't match any condition. It's ${sky}`)
+  }
 
   return (
-    <div>
-      <div className="app"></div>
+    <div id="app" className="app">
+      <div className="app__wrapper">
         <input
           type="text"
-          className="search-field"
+          className="app__search-field"
           placeholder="Oslo, Paris..."
           value={location}
           onChange={e => setLocation(e.target.value)}
           onKeyPress={e => getWeather(e)}
         />
-      { weather && weather[0] && weather[0].name ?
-        <div>
-          <span><b>{weather[0].name}</b><br/>
-          <img src={`https://openweathermap.org/img/wn/${weather[0].icon}@2x.png`} alt=""/><br/>
-          {weather[0].main}<br/>
-          {weather[0].temp}°C<br/>
-          {weather[0].wind} m/s
-          </span>
-        </div>
-      : <div>make a search to see some weather!</div> }
+        { weather && weather[0] && weather[0].name ?
+          <Weather weather={weather[0]}/>
 
-      { weather.length > 0 ?
-        weather.map((element, key) => {
-          if (key === 0){ return null }
-          return <div key={key}><br/>{element.name}<br/></div>
-        })
-        : null
-      }
-      { error ?
-        <span>Sorry, I couldn't find {errorLocation}...</span>
-        : null }
+        : <div>make a search to see some weather!</div> }
+        <div className="app__history">
+          { weather.length > 0 ?
+            weather.map((element, key) => {
+              if (key === 0){ return null }
+              return (
+                <div key={key} className="app__history-element">
+                  <h3>{element.name}&nbsp;&nbsp;</h3>
+                  <h1>{element.temp}°C</h1>
+                </div>
+              )
+            })
+            : null
+          }
+        </div>
+        { error ?
+          <span>Sorry, I couldn't find {errorLocation}...</span>
+          : null }
+      </div>
     </div>
   );
 }

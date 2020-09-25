@@ -1,5 +1,74 @@
-@import './components/Test';
+// misc
+@import '_variables';
 
-// body {
-//   background-color: blue;
-// }
+@import './components/Weather';
+
+body {
+  margin: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app{
+  min-height: 100vh;
+  width: 100%;
+  background-color: #FFF;
+  transition: background-color 1.5s ease-out;
+
+  &__wrapper{
+    margin: 0 auto;
+  }
+
+  &__search-field{
+    width: 300px;
+    padding: 15px;
+
+    appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    color: #313131;
+    font-size: 20px;
+
+    transition: 0.3s ease;
+  }
+  &__search-field:focus{
+    background-color: rgba(255, 255, 255, 0.75);
+  }
+
+
+
+  &__history{
+    display: flex;
+  }
+
+  &__history-element{
+    margin: 40px 30px 0;
+    padding: 20px;
+    width: 300px;
+    display: flex;
+    align-items: flex-end;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+  }
+
+}
+
+.clear{
+  background-color: $color-yellow;
+}
+
+.clouds{
+  background-color: $color-gray;
+}
+
+.rain{
+  background-color: $color-blue;
+}
