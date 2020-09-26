@@ -1,5 +1,112 @@
-@import './components/Test';
+// misc
+@import '_variables';
 
-// body {
-//   background-color: blue;
-// }
+@import './components/Weather';
+@import './components/Frame';
+
+body {
+  margin: 0;
+  font-family: 'Epilogue', sans-serif;
+  color: rgba(0,0,0,0.8);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app{
+  min-height: 100vh;
+  width: 100%;
+  background-color: #FFF;
+  transition: background-color 1.5s ease-out;
+  padding-top: 100px;
+
+  &__wrapper{
+    margin: 0 10%;
+  }
+
+  &__search-field{
+    width: 300px;
+    padding: 15px;
+
+    appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    color: #313131;
+    font-size: 20px;
+
+    transition: 0.3s ease;
+  }
+  &__search-field:focus{
+    background-color: rgba(255, 255, 255, 0.75);
+  }
+
+
+
+  &__history{
+
+    // justify-content: space-between;
+    h2{
+      font-size: 15px;
+      font-weight: 200;
+    }
+  }
+
+  &__history-content{
+    display: flex;
+    @media (max-width: 768px){
+      display: block;
+    }
+  }
+
+  &__history-element{
+    display: inline-block;
+    margin: 0 30px;
+    @media (max-width: 768px){
+      display: block;
+      margin: 10px 0;
+    }
+  }
+  &__history-element:first-of-type{
+    margin-left: 0;
+  }
+  &__history-element:last-of-type{
+    margin-right: 0;
+  }
+  &__history-element-info{
+
+    padding: 20px 0 10px;
+    // width: 300px;
+    display: flex;
+    align-items: flex-end;
+    // background-color: rgba(255, 255, 255, 0.5);
+    // border-radius: 10px;
+    h1{
+      font-size: 30px;
+      font-weight: 200;
+    }
+  }
+  &__history-element-line{
+    height: 2px;
+    width: 100%;
+    background-color: rgba(0,0,0,0.8);
+  }
+}
+
+.clear{
+  background-color: $color-yellow;
+}
+
+.clouds{
+  background-color: $color-gray;
+}
+
+.rain{
+  background-color: $color-blue;
+}
