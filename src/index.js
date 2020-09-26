@@ -22,7 +22,7 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem('weatherHistory', JSON.stringify(weather));
-    changeBackColor(weather[0].main);
+
   });
 
   const getWeather = (e) => {
@@ -35,6 +35,7 @@ const App = () => {
             setErrorLocation(location) )
           : (
             setWeather(updateWeather(result)),
+            changeBackColor(result.weather[0].main),
             setLocation(''),
             setError(false)
             )
@@ -106,7 +107,9 @@ const App = () => {
         { weather && weather[0] && weather[0].name ?
           <Weather weather={weather[0]}/>
 
-        : <div>make a search to see some weather!</div> }
+        : <div style={{minHeight: '300px', marginTop: '50px'}}>make a search to see some weather!</div> }
+        { weather.length > 1 ?
+
         <div className="app__history">
           <h2>Siste søk</h2>
           <div className="app__history-content">
@@ -127,6 +130,7 @@ const App = () => {
             }
           </div>
         </div>
+        : null }
         { error ?
           <span>Sorry, I couldn't find {errorLocation}...</span>
           : null }
