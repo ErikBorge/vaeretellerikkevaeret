@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {render} from 'react-dom';
 
 import Weather from './components/Weather';
+import Frame from './components/Frame';
 import './styles/index.scss';
 
 const api = {
@@ -87,6 +88,8 @@ const App = () => {
     : (sky === "Clouds") ? element.classList.add("clouds")
     : (sky === "Rain") ? element.classList.add("rain")
     : console.log(`The weather doesn't match any condition. It's ${sky}`)
+    // we also have Thunderstorm, Drizzle, Snow, Mist, Smoke, Haze, Dust, Fog, Sand, Dust, Ash, Squall, Tornado
+    // https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
   }
 
   return (
@@ -105,23 +108,30 @@ const App = () => {
 
         : <div>make a search to see some weather!</div> }
         <div className="app__history">
-          { weather.length > 0 ?
-            weather.map((element, key) => {
-              if (key === 0){ return null }
-              return (
-                <div key={key} className="app__history-element">
-                  <h3>{element.name}&nbsp;&nbsp;</h3>
-                  <h1>{element.temp}°C</h1>
-                </div>
-              )
-            })
-            : null
-          }
+          <h2>Siste søk</h2>
+          <div className="app__history-content">
+            { weather.length > 0 ?
+              weather.map((element, key) => {
+                if (key === 0){ return null }
+                return (
+                  <div key={key} className="app__history-element">
+                    <div className="app__history-element-info">
+                      <h1>{element.temp} °&nbsp;</h1>
+                      <h1>{element.name}</h1>
+                    </div>
+                    <div className="app__history-element-line"/>
+                  </div>
+                )
+              })
+              : null
+            }
+          </div>
         </div>
         { error ?
           <span>Sorry, I couldn't find {errorLocation}...</span>
           : null }
       </div>
+
     </div>
   );
 }
