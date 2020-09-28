@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 import Frame from './Frame';
 
+// import WindIcon from '../assets/wind.svg';
+// import RandomShape from '../assets/randomshape.svg';
+
 const Weather = (props) => {
   const [mainStatement, setMainStatement] = useState('');
   const [sideStatement, setSideStatement] = useState('');
@@ -10,7 +13,10 @@ const Weather = (props) => {
 
   useEffect(() => {
     generateStatement();
+    changeSVGColor();
     // console.log(sideStatement);
+    // const svg = document.getElementById("randomshapepath");
+    // console.log(svg);
   });
 
   const {name, icon, main, temp, wind, clouds, rain, time, timezone} = props.weather;
@@ -54,6 +60,9 @@ const Weather = (props) => {
 
     return phraseIndex;
   }
+  const changeSVGColor = () =>{
+
+  }
   // console.log(window.innerWidth);
   return (
     <div className="weather">
@@ -68,7 +77,10 @@ const Weather = (props) => {
                 <h2>{quote}</h2>
               </div>
               <div className="weather__info-specs">
-                <h2>{temp}°</h2>
+                {/*<div style={{display: "flex"}}>
+                  <img width="30px" src={WindIcon} alt=""/>*/}
+                  <h2>{temp}°</h2>
+                {/*</div>*/}
                 <h2>{Math.round(wind)} m/s</h2>
                 <h2>{Math.round(rain)} mm</h2>
               </div>
