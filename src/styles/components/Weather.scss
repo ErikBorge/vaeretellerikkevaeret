@@ -6,24 +6,60 @@
     display: block;
   }
 
-  &__graphics{
 
-    height: 200px;
-    @media (max-width: 768px){
-      width: 100%;
-    }
-  }
   &__info{
+    // display: flex;
+    // flex-wrap: wrap;
+    // flex: 2;
+    // flex-flow: column;
+    // max-height: 350px;
+    @media (max-width: 1000px){
+      // columns: unset;
+      // max-height: unset;
+      // flex-direction: row;
+    }
     h1{
       font-size: 80px;
       font-weight: 200;
     }
     h2{
       font-weight: 200;
+      padding-bottom: 7px;
     }
     span{
       font-size: 20px;
       font-weight: 200;
+    }
+  }
+  &__info-top{
+    // @media (max-width: 1000px){
+    //   order: 1;
+    // }
+  }
+  &__info-specs{
+    padding-top: 30px;
+    @media (max-width: 768px){
+      // order: 3;
+      display: flex;
+      width: 100%;
+      max-width: 350px;
+      margin: 0 auto;
+      justify-content: space-between;
+      h2{
+        // padding: 0 20px;
+        margin: 0 20px;
+      }
+    }
+  }
+  &__info-graphics{
+
+    height: 300px;
+    width: 300px;
+    margin: 40px 0 0 30px;
+    @media (max-width: 1000px){
+      width: 100%;
+      margin: 0;
+      // order: 2;
     }
   }
 }

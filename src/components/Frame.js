@@ -37,6 +37,7 @@ const Cloud = () => {
   )
 }
 
+
 const Rain = () => {
   const rain = useMemo(() => new THREE.TextureLoader().load(RaindropImg), [RaindropImg]);
 
@@ -51,7 +52,7 @@ const Rain = () => {
 }
 
 const Frame = ({weather}) => {
-  console.log(weather);
+  // console.log(weather);
 
 
   return (
