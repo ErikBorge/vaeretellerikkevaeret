@@ -21,7 +21,7 @@ body {
   // max-width: 100vw;
   background-color: #FFF;
   transition: background-color 1.5s ease-out, color 1.5s ease-out;
-  padding: 100px 0;
+  padding: 100px 0 0;
   color: black;
   @media (max-width: 768px){
     padding: 40px 0;
@@ -31,7 +31,6 @@ body {
     margin: 0 20%;
     @media (max-width: 768px){
       margin: 0 5%;
-
     }
   }
 
@@ -50,7 +49,6 @@ body {
     margin: 0 auto;
     @media (max-width: 768px){
       width: 90%;
-
     }
   }
 
@@ -70,7 +68,6 @@ body {
       font-weight: 200;
     }
     transition: padding-top 1s ease;
-    // animation: swipeup 1s ease;
   }
 
   &__search-field{
@@ -84,7 +81,7 @@ body {
 
     background-color: rgba(255, 255, 255, 0.5);
     // border-radius: 5px;
-    color: #313131;
+    color: rgba(5,43,56,1);
     font-size: 20px;
 
     transition: 0.3s ease;
@@ -93,15 +90,16 @@ body {
       width: 100%;
       max-width: 460px;
     }
-  }
-  &__search-field:focus{
-    background-color: rgba(255, 255, 255, 0.75);
-  }
 
-
+    &:focus{
+      background-color: rgba(255, 255, 255, 0.75);
+    }
+    &::placeholder{
+      color: rgba(5,43,56,0.6);
+    }
+  }
 
   &__history{
-
     // justify-content: space-between;
     h2{
       font-size: 15px;
@@ -124,15 +122,15 @@ body {
       display: block;
       margin: 10px 0;
     }
+    &:first-of-type{
+      margin-left: 0;
+    }
+    &:last-of-type{
+      margin-right: 0;
+    }
   }
-  &__history-element:first-of-type{
-    margin-left: 0;
-  }
-  &__history-element:last-of-type{
-    margin-right: 0;
-  }
-  &__history-element-info{
 
+  &__history-element-info{
     padding: 20px 0 10px;
     // width: 300px;
     display: flex;
@@ -143,13 +141,26 @@ body {
       font-size: 30px;
       font-weight: 200;
     }
-  }
-  &__history-element-line{
-    height: 2px;
-    width: 100%;
-    background-color: rgba(0,0,0,0.8);
+
+    position: relative;
+    &:before{
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 1px;
+      bottom: 0;
+      left: 0;
+      background-color: $night-text;
+      visibility: hidden;
+      transition: all 0.2s ease-out;
+    }
+    &:hover:before {
+      visibility: visible;
+      width: 100%;
+    }
   }
 }
+
 
 .clear{
   background-color: $color-yellow;
@@ -173,12 +184,6 @@ body {
 
 .splash-field{
   opacity: 0;
-  // visibility: hidden;
-  // display: none;
   margin-top: 50px;
   transition: opacity 1s ease;
 }
-
-// @keyframes swipeup {
-//   0%
-// }

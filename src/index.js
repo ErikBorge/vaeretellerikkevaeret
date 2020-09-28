@@ -6,6 +6,8 @@ import Frame from './components/Frame';
 import Frame2 from './components/Frame2';
 import './styles/index.scss';
 
+
+
 const api = {
   key: "209d013b886466ecf743dce3799e8925",
   base: "https://api.openweathermap.org/data/2.5/"
@@ -192,10 +194,9 @@ const App = () => {
                 return (
                   <div key={key} onClick={() => getWeather(element.name)} className="app__history-element">
                     <div className="app__history-element-info">
-                      <h1>{element.temp} °&nbsp;</h1>
+                      <h1>{element.temp} °</h1>
                       <h1>{element.name}</h1>
                     </div>
-                    <div className="app__history-element-line"/>
                   </div>
                 )
               })
