@@ -2,8 +2,26 @@ import React, { useState, useEffect } from 'react';
 
 import Frame from './Frame';
 
-// import WindIcon from '../assets/wind.svg';
+import WindIcon from '../assets/wind.svg';
 // import RandomShape from '../assets/randomshape.svg';
+
+// import flatten from 'lodash-es/flatten'
+// import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader'
+// // potensielt hente paths fra svg (med imports rett over)
+// const svgResource = new Promise(resolve =>
+//   windsvg = new SVGLoader().load(WindIcon, shapes => {
+//     console.log(shapes);
+//     shapes.paths.map(element => {
+//       element.color.b = 255;
+//       element.color.g = 255;
+//       element.color.r = 255;
+//     })
+//
+//   }
+//
+//     // resolve(flatten(shapes.map((group, index) => group.toShapes(true).map(shape => ({ shape, color: group.color, index })))))
+//   )
+// )
 
 const Weather = (props) => {
   const [mainStatement, setMainStatement] = useState('');
@@ -76,17 +94,18 @@ const Weather = (props) => {
                 <h2>{sideStatement}</h2>
                 <h2>{quote}</h2>
               </div>
+
               <div className="weather__info-specs">
                 {/*<div style={{display: "flex"}}>
                   <img width="30px" src={WindIcon} alt=""/>*/}
                   <h2>{temp}°</h2>
                 {/*</div>*/}
                 <h2>{Math.round(wind)} m/s</h2>
-                <h2>{Math.round(rain)} mm</h2>
+                <h2>{Math.round(rain*10)/10} mm</h2>
               </div>
             </div>
             <div className="weather__info-graphics">
-              <Frame weather={main}/>
+              <Frame weather={props.weather}/>
             </div>
           </>
           :

@@ -2,6 +2,7 @@ import React, { useRef, useMemo } from 'react';
 
 import { Canvas, useFrame, useLoader } from 'react-three-fiber';
 import * as THREE from 'three';
+import Rain from './Rain';
 
 import CloudImg from '../assets/cloud.png';
 import RaindropImg from '../assets/raindrop.png';
@@ -38,22 +39,22 @@ const Cloud = () => {
 }
 
 
-const Rain = () => {
-  const rain = useMemo(() => new THREE.TextureLoader().load(RaindropImg), [RaindropImg]);
+// const Rain = () => {
+//   const rain = useMemo(() => new THREE.TextureLoader().load(RaindropImg), [RaindropImg]);
+//
+//   return (
+//     <mesh>
+//       <planeBufferGeometry attach="geometry" args={[4, 4]}/>
+//       <meshLambertMaterial attach="material" transparent>
+//         <primitive attach="map" object={rain} />
+//       </meshLambertMaterial>
+//     </mesh>
+//   )
+// }
 
-  return (
-    <mesh>
-      <planeBufferGeometry attach="geometry" args={[4, 4]}/>
-      <meshLambertMaterial attach="material" transparent>
-        <primitive attach="map" object={rain} />
-      </meshLambertMaterial>
-    </mesh>
-  )
-}
-
-const Frame = ({weather}) => {
+const Frame = (props) => {
   // console.log(weather);
-
+  const {main, wind, rain} = props.weather;
 
   return (
     <>
@@ -71,10 +72,11 @@ const Frame = ({weather}) => {
           shadow-mapSize-height={1024}
           // shadow-camera-right={50}
         />
-        { (weather === 'Clear') ? <Sun />
-        : (weather === 'Rain') ? <Rain />
+        {/* (main === 'Clear') ? <Sun />
+        : (main === 'Rain') ? <Rain />
         : <Cloud />
-        }
+        */}
+        <Rain weather={props.weather}/>
       </Canvas>
     </>
   );
