@@ -23,6 +23,7 @@
     "css-loader": "^4.3.0",
     "file-loader": "^6.1.0",
     "html-webpack-plugin": "^4.5.0",
+    "react-autocomplete": "^1.8.1",
     "react-spring": "^8.0.27",
     "react-three-fiber": "^5.0.1",
     "sass": "^1.26.11",
