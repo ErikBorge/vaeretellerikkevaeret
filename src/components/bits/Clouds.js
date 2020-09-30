@@ -18,7 +18,7 @@ const Clouds = ({weather}) => {
       </group>
     )
   }
-  else{
+  else {
     return null;
   }
 }
