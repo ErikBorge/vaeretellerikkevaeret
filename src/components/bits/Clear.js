@@ -8,7 +8,7 @@ const Clear = ({weather}) => {
 
   useEffect(() => {
     setNight(weather.sunrise >= weather.time || weather.time >= weather.sunset);
-    if (mesh.current){
+    if (mesh.current) {
       (!night) ? (
         mesh.current.material.transparent = true,
         mesh.current.material.opacity = 1 - weather.clouds/500

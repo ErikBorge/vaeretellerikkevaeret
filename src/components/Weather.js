@@ -18,7 +18,7 @@ const Weather = (props) => {
   const {name, icon, main, temp, wind, clouds, rain, time, timezone} = props.weather;
   const hour = new Date((time+timezone) * 1000).getUTCHours();
 
-  const phrases = ['Ikke verst.', 'Kunne vært bedre.', 'Helt OK.', 'Litt kjipt.', 'Ganske kjipt.', 'Helt jævlig.', 'Ikke gå ut.'];
+  const phrases = ['Ikke så ille.', 'Ikke verst.', 'Helt OK.', 'Kunne vært bedre.', 'Litt kjipt.', 'Ganske kjipt.', 'Helt jævlig.', 'Ikke gå ut.'];
   const windStatements = [0, 'litt vind', 'noe vind', 'en del vind', 'ganske mye vind', 'helt sinnssykt mye vind'];
   const rainStatements = [0, 'nesten ikke regn', 'vanlig-jakkeregn', 'regnjakkeregn', 'paraplyregn', 'støvleregn' ];
   const goodWeatherQuotes = ['Nå kan det bare gå nedover.', 'Kunne vært vær, si!', 'Været slår nok tilbake snart.', 'Ikke se for lyst på det. Det blir verre.'];
@@ -26,10 +26,10 @@ const Weather = (props) => {
 
   const generateStatement = () => {
     const windIndex = Math.min(
-      Math.round((wind/10)*windStatements.length),
+      Math.round(Math.min((wind/10)*windStatements.length, windStatements.length-1)),
       windStatements.length )
     const rainIndex = Math.min(
-      Math.round((rain/10)*windStatements.length),
+      Math.round(Math.min((rain/10)*windStatements.length, windStatements.length)),
       rainStatements.length )
     const phraseIndex = Math.round((windIndex+rainIndex)/2);
     // console.log(phraseIndex);
@@ -65,13 +65,13 @@ const Weather = (props) => {
                 <h2 style={{paddingBottom: '50px'}}>{name} kl {hour}</h2>
                 <h1>{mainStatement}</h1>
                 <h2>{sideStatement}</h2>
-                <h2>{quote}</h2>
+
               </div>
 
               <div className="weather__info-specs">
                 {/*<div style={{display: "flex"}}>
                   <img width="30px" src={WindIcon} alt=""/>*/}
-                  <h2>{temp}°</h2>
+                  <h2>{Math.round(temp)}°</h2>
                 {/*</div>*/}
                 <h2>{Math.round(wind)} m/s</h2>
                 <h2>{Math.round(rain*10)/10} mm</h2>
@@ -94,9 +94,9 @@ const Weather = (props) => {
                 <Frame weather={props.weather}/>
               </div>
               <div className="weather__info-specs">
-                <h2>{temp}°</h2>
+                <h2>{Math.round(temp)}°</h2>
                 <h2>{Math.round(wind)} m/s</h2>
-                <h2>{Math.round(rain)} mm</h2>
+                <h2>{Math.round(rain*10)/10} mm</h2>
               </div>
             </div>
           </>

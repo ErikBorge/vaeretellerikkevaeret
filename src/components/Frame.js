@@ -8,7 +8,6 @@ import Clear from './bits/Clear';
 
 
 const Frame = (props) => {
-  // console.log(weather);
   const {main, wind, rain, clouds} = props.weather;
   // console.log(`clouds: ${clouds}`);
   // console.log(`main: ${main}`);

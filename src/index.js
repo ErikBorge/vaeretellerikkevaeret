@@ -6,38 +6,37 @@ import Weather from './components/Weather';
 import Frame from './components/Frame';
 import Frame2 from './components/Frame2';
 import './styles/index.scss';
+
+import CrossIcon from './assets/cross-icon.svg';
 // import Cities from './assets/cities2.json';
 
-
+// TODO: This should obviously not be included here...
 const api = {
-  key: "209d013b886466ecf743dce3799e8925",
+  key: '209d013b886466ecf743dce3799e8925',
   base: "https://api.openweathermap.org/data/2.5/"
 }
 
 const App = () => {
 
-  // const [weather, setWeather] = useState({});
+  // States
   const [weather, setWeather] = useState(
     JSON.parse(localStorage.getItem('weatherHistory')) || []
   );
   const [location, setLocation] = useState('');
   const [error, setError] = useState(false);
   const [errorLocation, setErrorLocation] = useState('');
-  const [showSplashScreen, setShowSplashScreen] = useState(true);
+  const [showSplashScreen, setShowSplashScreen] = useState(!weather[0]);
 
   useEffect(() => {
-    localStorage.setItem('weatherHistory', JSON.stringify(weather));
-    if(weather[0]){
-      setShowSplashScreen(false);
-      changeBackColor(weather[0]);
-
-    };
-    if(showSplashScreen) {
-      enterSplashScreen(document.getElementById("splash-title"), document.getElementById("splash-field"));
-    }
-
+    //Update local storage with new weather data
+    localStorage.setItem('weatherHistory', JSON.stringify(weather))
+    //Change background color only if we have some weather
+    weather[0] && changeBackColor(weather[0]);
+    //Start splashscreen if we don't have any weather
+    showSplashScreen && enterSplashScreen(document.getElementById("splash-title"), document.getElementById("splash-field"));
   });
 
+  //Get weather from API and put the result in weather
   const getWeather = (loc) => {
     // console.log("getting weather");
     fetch(`${api.base}weather?q=${loc}&units=metric&APPID=${api.key}`)
@@ -45,29 +44,32 @@ const App = () => {
       .then(result => {
         (result.cod === "404") ? (
           setError(true),
-          setErrorLocation(location) )
+          setErrorLocation(location),
+          setLocation('')
+        )
         : (
-          // console.log(result),
           setWeather(updateWeather(result)),
           setLocation(''),
           setError(false)
           )
       })
   }
+
+  //Only do a search when the user presses 'Enter'. Remove splashscreen if present
   const getKey = (e) => {
     if (e.key === 'Enter') {
       getWeather(location);
-      if (showSplashScreen){
-        removeSplashScreen();
-      }
+      (showSplashScreen) && removeSplashScreen();
+      e.target.blur();
     }
   }
 
+  //deconstruct the result from the API into a new object
   const deconstructWeatherObject = (object) => {
     return {
       name: object.name,
       main: object.weather[0].main,
-      temp: Math.round(object.main.temp),
+      temp: object.main.temp,
       wind: object.wind.speed,
       icon: object.weather[0].icon,
       time: object.dt,
@@ -81,33 +83,27 @@ const App = () => {
 
   const updateWeather = (element) => {
     // make editable copy of weather
-    // console.log(element);
     let newWeather = Object.assign([], weather);
     let newElement = deconstructWeatherObject(element)
-    // console.log(newElement);
+
     // check if element is already in history
-    newWeather.map((value, key) => {
-      if (value.name === newElement.name) {
-        newWeather.splice(key,1);
-      }
+    newWeather.forEach((value, key) => {
+      (value.name === newElement.name) && newWeather.splice(key,1);
     })
 
     // add element to newWeather
     newWeather.unshift(newElement);
-    // setWeather(oldWeather => [deconstructWeatherObject(element), ...oldWeather]);
 
     // remove the last element when newWeather is filled up
-    if (newWeather.length >= 5) {
-      newWeather.pop();
-      // setWeather(oldWeather => [ oldWeather[0], oldWeather[1], oldWeather[2], oldWeather[3] ])
-    }
-
-    changeBackColor(newElement);
+    newWeather.length >= 5 && newWeather.pop();
 
     // finally, return newWeather for update
     return newWeather;
   }
 
+  //change background color based on weather
+  // TODO: some times the API gives main: Rain, while there's actually 0mm rain the next hour.
+  // Calculate color based on forecasted rain and amount of clouds instead?
   const changeBackColor = (weather) => {
     const element = document.getElementById("app");
     const sky = weather.main;
@@ -123,9 +119,7 @@ const App = () => {
     : console.log(`The weather doesn't match any condition. It's ${sky}`);
 
     //If there's night
-    if (weather.sunrise >= weather.time || weather.time >= weather.sunset) {
-      element.classList.add("night");
-    }
+    (weather.sunrise >= weather.time || weather.time >= weather.sunset) && element.classList.add("night");
 
     // we also have Thunderstorm, Drizzle, Snow, Mist, Smoke, Haze, Dust, Fog, Sand, Dust, Ash, Squall, Tornado
     // https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
@@ -147,14 +141,18 @@ const App = () => {
     }, 1000)
   }
 
+  const removeErrorMsg = () => {
+    setError(!error);
+  }
+
   return (
     <div id="app" className="app">
-      { showSplashScreen ?
+      { showSplashScreen &&
         <div id="splash" className="app__splashscreen">
           <div className="app__splashscreen-wrapper">
             <div id="splash-title" className="app__splashscreen-title">
               <h1>Vær og vær vær</h1>
-              <h2>[væ:r å: væ:r væ:r] trøndersk uttrykk</h2>
+              <h2>[væ:r å: væ:r væ:r], trøndersk uttrykk</h2>
               <input
                 id="splash-field"
                 type="text"
@@ -167,7 +165,6 @@ const App = () => {
             </div>
           </div>
         </div>
-        : null
       }
 
       <div className="app__wrapper">
@@ -185,7 +182,7 @@ const App = () => {
               </div>
             )}
             inputProps={{
-              placeholder: "Trondheim, Vågå, Oslo..."
+              placeholder: "Oslo, Paris..."
             }}
             value={location}
             shouldItemRender={item => {
@@ -203,52 +200,40 @@ const App = () => {
           onChange={e => setLocation(e.target.value)}
           onKeyPress={e => getKey(e)}
         />
-        { weather && weather[0] && weather[0].name ?
+        { weather[0] && weather[0].name ?
           <Weather weather={weather[0]}/>
-
         : <div style={{minHeight: '300px', marginTop: '50px'}}>make a search to see some weather!</div> }
-        { weather.length > 1 ?
-
-        <div className="app__history">
-          <h2>Siste søk</h2>
-          <div className="app__history-content">
-            { weather.length > 0 ?
-              weather.map((element, key) => {
-                if (key === 0){ return null }
-                return (
-                  <div key={key} onClick={() => getWeather(element.name)} className="app__history-element">
-                    <div className="app__history-element-info">
-                      <h1>{element.temp} °</h1>
-                      <h1>{element.name}</h1>
+        { weather.length > 1 &&
+          <div className="app__history">
+            <h2>Siste søk</h2>
+            <div className="app__history-content">
+              { weather.map((element, key) => {
+                  if (key === 0) { return null }
+                  return (
+                    <div key={key} onClick={() => {
+                      getWeather(element.name);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }} className="app__history-element">
+                      <div className="app__history-element-info">
+                        <h1>{Math.round(element.temp)}°&nbsp;</h1>
+                        <h1>{element.name}</h1>
+                      </div>
                     </div>
-                  </div>
-                )
-              })
-              : null
-            }
+                  )
+                })
+              }
+            </div>
           </div>
-        </div>
-        : null }
-        { error ?
-          <span>Sorry, I couldn't find {errorLocation}...</span>
-          : null }
+        }
+        { error &&
+          <div className="app__error">
+            <span>Sorry ass, {errorLocation} finnes ikke... Prøv noe annet.</span>
+            <img src={CrossIcon} alt="x" onClick={removeErrorMsg}/>
+          </div>
+          }
       </div>
-      {/*<Frame2 />*/}
     </div>
   );
 }
 
 render(<App />,document.getElementById('root'));
-
-// import _ from 'lodash';
-//
-// function component() {
-//   const element = document.createElement('div');
-//
-//   // Lodash, currently included via a script, is required for this line to work
-//   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-//
-//   return element;
-// }
-//
-// document.body.appendChild(component());
