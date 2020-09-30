@@ -2,6 +2,7 @@
   width: 100%;
   margin: 40px auto;
   display: flex;
+  justify-content: space-between;
   @media (max-width: 768px){
     display: block;
   }
@@ -13,6 +14,7 @@
     // flex: 2;
     // flex-flow: column;
     // max-height: 350px;
+
     @media (max-width: 1000px){
       // columns: unset;
       // max-height: unset;
@@ -52,10 +54,10 @@
     }
   }
   &__info-graphics{
-
     height: 300px;
     width: 300px;
     margin: 40px 0 0 30px;
+    // border: 2px solid white;
     @media (max-width: 1000px){
       width: 100%;
       margin: 0;

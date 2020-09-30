@@ -176,7 +176,16 @@ const Point = ({position}) => {
   )
 }
 
+const numDrops = 100;
+const drops = new Array(numDrops).fill();
+const color = '#A2CCB6';
+
 const Rain = () => {
+  const material = useRef()
+  const [color] = useState(() => parseInt(color))
+  const [ratio] = useState(0.5)
+  const [width] = useState(0.5)
+
   const rain = useMemo(() => new THREE.TextureLoader().load(RaindropImg), [RaindropImg]);
 
   return (
@@ -188,6 +197,19 @@ const Rain = () => {
     </mesh>
   )
 }
+
+// const Rain = () => {
+//   const rain = useMemo(() => new THREE.TextureLoader().load(RaindropImg), [RaindropImg]);
+//
+//   return (
+//     <mesh>
+//       <planeBufferGeometry attach="geometry" args={[4, 4]}/>
+//       <meshLambertMaterial attach="material" transparent>
+//         <primitive attach="map" object={rain} />
+//       </meshLambertMaterial>
+//     </mesh>
+//   )
+// }
 
 const Frame2 = () => {
 
