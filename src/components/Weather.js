@@ -14,9 +14,10 @@ const Weather = (props) => {
   const {name, icon, main, temp, wind, clouds, rain, time, timezone} = props.weather;
   const hour = new Date((time+timezone) * 1000).getUTCHours();
 
-  const phrases = ['Ikke så ille.', 'Ikke verst.', 'Helt OK.', 'Kunne vært bedre.', 'Litt kjipt.', 'Ganske kjipt.', 'Helt jævlig.', 'Ikke gå ut.'];
+  const phrases = ['Ikke så ille.', 'Ikke verst.', 'Helt OK.', 'Litt kjipt.', 'Ganske kjipt.', 'Helt jævlig.', 'Ikke gå ut.'];
   const windStatements = [0, 'litt vind', 'noe vind', 'en del vind', 'ganske mye vind', 'helt sinnssykt mye vind'];
   const rainStatements = [0, 'nesten ikke regn', 'vanlig-jakkeregn', 'regnjakkeregn', 'paraplyregn', 'støvleregn' ];
+  // TODO: implement the quotes
   const goodWeatherQuotes = ['Nå kan det bare gå nedover.', 'Kunne vært vær, si!', 'Været slår nok tilbake snart.', 'Ikke se for lyst på det. Det blir verre.'];
   const badWeatherQuotes = ['Ah mah gaaad!', 'I dag igjen...', 'Æsj ass.', 'Blir aldri bra dette.', 'Når blir det sommer igjen?'];
 
@@ -25,7 +26,7 @@ const Weather = (props) => {
       Math.round(Math.min((wind/10)*windStatements.length, windStatements.length-1)),
       windStatements.length )
     const rainIndex = Math.min(
-      Math.round(Math.min((rain/10)*windStatements.length, windStatements.length)),
+      Math.round(Math.min((rain/5)*windStatements.length, windStatements.length)),
       rainStatements.length )
     const phraseIndex = Math.round((windIndex+rainIndex)/2);
 

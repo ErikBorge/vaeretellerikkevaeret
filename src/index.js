@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import {render} from 'react-dom';
 
 import Weather from './components/Weather';
@@ -31,14 +31,13 @@ const App = () => {
   const [showSplashScreen, setShowSplashScreen] = useState(!weather[0]);
   const [hasCheeseBurger, setHasCheeseBurger] = useState(false); //Laser cat
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     //Update local storage with new weather data
     localStorage.setItem('weatherHistory', JSON.stringify(weather))
     //Change background color only if we have some weather
     weather[0] && changeBackColor(weather[0]);
     //Start splashscreen if we don't have any weather
     showSplashScreen && enterSplashScreen(document.getElementById("splash-title"), document.getElementById("splash-field"));
-    //Attach onclicks to all elements in lazer cat mode
   });
 
   //Get weather from API and put the result in weather
@@ -128,7 +127,7 @@ const App = () => {
     : (sky === "Clouds") ? element.classList.add("clouds")
     : (sky === "Rain") ? element.classList.add("rain")
     : (sky === "Mist") ? element.classList.add("clouds")
-    : console.log(`The weather doesn't match any condition. It's ${sky}`);
+    : element.classList.add("clouds");
 
     //If there's night
     (weather.sunrise >= weather.time || weather.time >= weather.sunset) && element.classList.add("night");
@@ -195,13 +194,14 @@ const App = () => {
         { weather.length > 1 &&
           <div className="app__history">
             <h2>Siste søk</h2>
-            <div className="app__history-content">
+            <div className="app__history-content" id="history-content">
               { weather.map((element, key) => {
                   if (key === 0) { return null }
                   return (
                     <div
                       className="app__history-element"
                       key={key}
+                      id={`history-element${key}`}
                       onClick={(e) => {
                         getWeather(element.name);
                         window.scrollTo({ top: 0, behavior: 'smooth' });
