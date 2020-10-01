@@ -1,16 +1,25 @@
 import React, { useRef, useMemo, useEffect, useState } from 'react';
-
 import { Canvas } from 'react-three-fiber';
 import * as THREE from 'three';
+import { isEqual } from 'lodash';
+
 import Rain from './bits/Rain';
 import Clouds from './bits/Clouds';
 import Clear from './bits/Clear';
 
 
+
+
 const Frame = (props) => {
+// export default React.memo(Frame,  (props, nextProps)=> {
+  // console.log(props, nextProps);
   const {main, wind, rain, clouds} = props.weather;
   // console.log(`clouds: ${clouds}`);
   // console.log(`main: ${main}`);
+  // React.memo(Frame, (props, nextProps) => {
+  //   console.log(props, nextProps);
+
+  // })
   return (
     <>
       <Canvas
@@ -40,4 +49,9 @@ const Frame = (props) => {
   );
 }
 
-export default Frame;
+export default React.memo(Frame,  (props, nextProps)=> {
+    if(isEqual(props, nextProps)) {
+      return true
+    }
+    return false
+})

@@ -5,7 +5,6 @@ import { Canvas, useFrame, useThree } from 'react-three-fiber'
 
 import RaindropImg from '../../assets/raindrop.png';
 
-
 const Rain = (props) => {
   let group = useRef();
 
@@ -37,7 +36,7 @@ const RainDrop = ({wind}) => {
   const maxY = 1.8;
   const maxX = 3;
   const rainYSpeed = Math.random()+5;
-  const position = [Math.random()*maxX*2-maxX, Math.random()*maxY*2-maxY, 0]
+  const position = [Math.random()*maxX*2-maxX, Math.random()*maxY*2-maxY, Math.round(Math.random())]
 
   useFrame(() => {
     mesh.current.position.x -= 0.005*wind;

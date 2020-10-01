@@ -118,6 +118,8 @@ body {
     cursor: pointer;
     display: inline-block;
     margin: 0 30px;
+    outline: none;
+
     @media (max-width: 768px){
       display: block;
       margin: 10px 0;
@@ -127,6 +129,9 @@ body {
     }
     &:last-of-type{
       margin-right: 0;
+    }
+    &:focus{
+      outline: 2px solid $color-blue;
     }
   }
 

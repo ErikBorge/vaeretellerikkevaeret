@@ -61,6 +61,7 @@ const App = () => {
       getWeather(location);
       (showSplashScreen) && removeSplashScreen();
       e.target.blur();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
@@ -116,6 +117,7 @@ const App = () => {
     (sky === "Clear") ? element.classList.add("clear")
     : (sky === "Clouds") ? element.classList.add("clouds")
     : (sky === "Rain") ? element.classList.add("rain")
+    : (sky === "Mist") ? element.classList.add("clouds")
     : console.log(`The weather doesn't match any condition. It's ${sky}`);
 
     //If there's night
@@ -193,6 +195,7 @@ const App = () => {
             //onSelect={getWeather(location)}
           />*/}
         <input
+          id="search-field"
           type="text"
           className="app__search-field"
           placeholder="Oslo, Paris..."
@@ -210,10 +213,23 @@ const App = () => {
               { weather.map((element, key) => {
                   if (key === 0) { return null }
                   return (
-                    <div key={key} onClick={() => {
-                      getWeather(element.name);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }} className="app__history-element">
+                    <div
+                      className="app__history-element"
+                      key={key}
+                      onClick={(e) => {
+                        getWeather(element.name);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        e.currentTarget.blur();
+                      }}
+                      tabIndex={0}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          getWeather(element.name);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                          e.target.blur();
+                        }
+                      }}
+                    >
                       <div className="app__history-element-info">
                         <h1>{Math.round(element.temp)}°&nbsp;</h1>
                         <h1>{element.name}</h1>
