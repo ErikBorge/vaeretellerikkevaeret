@@ -36,9 +36,13 @@ const App = () => {
     localStorage.setItem('weatherHistory', JSON.stringify(weather))
     //Change background color only if we have some weather
     weather[0] && changeBackColor(weather[0]);
+
+  });
+
+  useEffect(() => {
     //Start splashscreen if we don't have any weather
     showSplashScreen && enterSplashScreen(document.getElementById("splash-title"), document.getElementById("splash-field"));
-  });
+  })
 
   //Get weather from API and put the result in weather
   const getWeather = (loc) => {
@@ -137,7 +141,10 @@ const App = () => {
   }
 
   const enterSplashScreen = (element, field) => {
+    console.log('entering splash');
+    console.log(element.style.paddingTop);
     element.style.paddingTop = "50%";
+    console.log(element.style.paddingTop);
     setTimeout(() => {
       field.style.opacity = 1;
     }, 1000)
