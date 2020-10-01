@@ -176,6 +176,7 @@ const App = () => {
                 value={location}
                 onChange={e => setLocation(e.target.value)}
                 onKeyPress={e => getKey(e)}
+                autocomplete="off"
               />
             </div>
           </div>
@@ -213,7 +214,6 @@ const App = () => {
                         e.currentTarget.blur();
                       }}
                       tabIndex={0}
-                      autocomplete="off"
                       onKeyPress={(e) => {
                         if (e.key === "Enter") {
                           getWeather(element.name);
