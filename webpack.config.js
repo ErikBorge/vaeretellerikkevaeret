@@ -30,8 +30,15 @@ module.exports = {
           'sass-loader',
         ],
       },
+      // Pictures
       {
         test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          'file-loader',
+        ],
+      },
+      {
+        test: /\.mp3$/,
         use: [
           'file-loader',
         ],
