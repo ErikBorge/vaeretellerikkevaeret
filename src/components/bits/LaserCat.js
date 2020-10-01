@@ -22,17 +22,30 @@ const LaserCat = ({hasCheeseBurger}) => {
 
       alert('LASER CAT MODE! Click to destroy.');
 
+      // TODO: this doesn't remove the react onClick handler. Fix
+      // getElementsByIdStartsWith('history-content', 'div', 'history-element').forEach((element) => {
+      //   element.onclick = null;
+      // })
+
       // Rotate head according to mouse position
       document.getElementById('root').addEventListener('mousemove', (e) => {
         rotateLilBub(document.getElementById('lilbub'), e.clientX, window.innerHeight - e.clientY);
       })
+
 
     }
   });
 
   // Destroys the clicked element
   const destroyElement = (e) => {
+    if (e.target.id === 'lilbub'){
+      setTimeout(() => {
+        alert('NOOOOO YOU KILLED LILBUB');
+        window.location.reload(false);
+      }, 1100)
+    }
     e.target.style.display= "none";
+
     const element = document.createElement('img');
     element.src = Explosion;
     element.style.position = 'absolute';
@@ -52,6 +65,20 @@ const LaserCat = ({hasCheeseBurger}) => {
   const rotateLilBub = (bub, posX, posY) => {
     bub.style.transform = `rotate(${-Math.atan2(posY, posX)}rad)`;
   }
+
+  // TODO: works, but need to fix removal of onclick events further up in this file
+  // const getElementsByIdStartsWith = (container, selectorTag, prefix) => {
+  //   var items = [];
+  //   var myPosts = document.getElementById(container).getElementsByTagName(selectorTag);
+  //   for (var i = 0; i < myPosts.length; i++) {
+  //       //omitting undefined null check for brevity
+  //       if (myPosts[i].id.lastIndexOf(prefix, 0) === 0) {
+  //           items.push(myPosts[i]);
+  //       }
+  //   }
+  //   console.log(items);
+  //   return items;
+  // }
 
   return(
     <>
