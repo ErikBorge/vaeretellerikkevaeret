@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import Frame from './Frame';
-// import WindIcon from '../assets/wind.svg';
 
 const Weather = (props) => {
   const [mainStatement, setMainStatement] = useState('');
@@ -10,9 +9,6 @@ const Weather = (props) => {
 
   useEffect(() => {
     generateStatement();
-    // console.log(sideStatement);
-    // const svg = document.getElementById("randomshapepath");
-    // console.log(svg);
   });
 
   const {name, icon, main, temp, wind, clouds, rain, time, timezone} = props.weather;
@@ -32,7 +28,7 @@ const Weather = (props) => {
       Math.round(Math.min((rain/10)*windStatements.length, windStatements.length)),
       rainStatements.length )
     const phraseIndex = Math.round((windIndex+rainIndex)/2);
-    // console.log(phraseIndex);
+
     var windRainStatement;
     if (windIndex === 0 && rainIndex === 0){ windRainStatement = '' }
     else if (rainIndex === 0 && windIndex != 0){
@@ -47,10 +43,6 @@ const Weather = (props) => {
 
     setMainStatement(phrases[phraseIndex]);
     setSideStatement(windRainStatement);
-    // console.log(windRainStatement);
-
-    // if (phraseIndex < phrases.length/2) { setQuote(goodWeatherQuotes[index]) }
-    // else { setQuote(badWeatherQuotes[index]) };
 
     return phraseIndex;
   }
@@ -69,10 +61,7 @@ const Weather = (props) => {
               </div>
 
               <div className="weather__info-specs">
-                {/*<div style={{display: "flex"}}>
-                  <img width="30px" src={WindIcon} alt=""/>*/}
-                  <h2>{Math.round(temp)}°</h2>
-                {/*</div>*/}
+                <h2>{Math.round(temp)}°</h2>
                 <h2>{Math.round(wind)} m/s</h2>
                 <h2>{Math.round(rain*10)/10} mm</h2>
               </div>
@@ -106,10 +95,3 @@ const Weather = (props) => {
 }
 
 export default Weather;
-
-
-// frase. regn og vind
-//ikke så verst. litt regn og litt vind.
-//helt jævlig. masse regn og masse vind.
-//ganske kjipt. masse regn.
-//ganske kjipt. masse vind.

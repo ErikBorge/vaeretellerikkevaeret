@@ -3,8 +3,6 @@ import * as THREE from 'three'
 import React, { useState, useRef } from 'react'
 import { Canvas, useFrame, useThree } from 'react-three-fiber'
 
-import RaindropImg from '../../assets/raindrop.png';
-
 const Rain = (props) => {
   let group = useRef();
 

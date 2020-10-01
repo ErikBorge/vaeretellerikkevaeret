@@ -1,9 +1,13 @@
 const express = require('express');
+const compression = require('compression')
 const path = require('path');
 const port = process.env.PORT || 8080;
 const favicon = require('express-favicon');
 
 const app = express();
+
+// compress all responses
+app.use(compression())
 
 //favicon
 app.use(favicon(__dirname + '/dist/favicon.ico'));

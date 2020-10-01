@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import LilBubBody from '../../assets/lilbub-body.png';
-import LilBubHead from '../../assets/lilbub-head2.png';
+import LilBubHead from '../../assets/lilbub-head.png';
 import Explosion from '../../assets/explosion.gif';
 import Laser from '../../assets/laser.mp3';
 

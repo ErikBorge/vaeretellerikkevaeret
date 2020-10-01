@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {render} from 'react-dom';
-// import Autocomplete from 'react-autocomplete'
 
 import Weather from './components/Weather';
-import Frame from './components/Frame';
-import Frame2 from './components/Frame2';
 import LaserCat from './components/bits/LaserCat';
 import './styles/index.scss';
 
 import CrossIcon from './assets/cross-icon.svg';
-import LilBubBody from './assets/lilbub-body.png';
-import LilBubHead from './assets/lilbub-head2.png';
-import Explosion from './assets/explosion.gif';
-import Laser from './assets/laser.mp3';
-// import Cities from './assets/cities2.json';
 
 // TODO: This should obviously not be included here...
 const api = {
@@ -188,30 +180,6 @@ const App = () => {
       }
 
       <div className="app__wrapper">
-        {/*<Autocomplete
-            getItemValue={(item) => item.name}
-            items={Cities}
-            renderItem={(item, isHighlighted) =>
-              <div key={item.id} className={`item ${isHighlighted ? 'item-highlighted' : ''}`}>
-                {item.name}
-              </div>
-            }
-            renderMenu={children => (
-              <div className="menu">
-                {children.slice(0,3)}
-              </div>
-            )}
-            inputProps={{
-              placeholder: "Oslo, Paris..."
-            }}
-            value={location}
-            shouldItemRender={item => {
-              //console.log(item.name.toLowerCase().indexOf(location.toLowerCase()) !== -1 );
-              return location.length >= 3 && item.name.toLowerCase().indexOf(location.toLowerCase()) !== -1
-            }}
-            onChange={e => setLocation(e.target.value)}
-            //onSelect={getWeather(location)}
-          />*/}
         <input
           id="search-field"
           type="text"
