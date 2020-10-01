@@ -76,7 +76,6 @@ const LaserCat = ({hasCheeseBurger}) => {
   //           items.push(myPosts[i]);
   //       }
   //   }
-  //   console.log(items);
   //   return items;
   // }
 
