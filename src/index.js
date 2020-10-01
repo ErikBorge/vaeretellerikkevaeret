@@ -141,10 +141,7 @@ const App = () => {
   }
 
   const enterSplashScreen = (element, field) => {
-    console.log('entering splash');
-    console.log(element.style.paddingTop);
     element.style.paddingTop = "50%";
-    console.log(element.style.paddingTop);
     setTimeout(() => {
       field.style.opacity = 1;
     }, 1000)
