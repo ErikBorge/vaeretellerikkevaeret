@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import {render} from 'react-dom';
-import Autocomplete from 'react-autocomplete'
 
 import Weather from './components/Weather';
-import Frame from './components/Frame';
-import Frame2 from './components/Frame2';
+import LaserCat from './components/bits/LaserCat';
 import './styles/index.scss';
 
 import CrossIcon from './assets/cross-icon.svg';
-// import Cities from './assets/cities2.json';
 
 // TODO: This should obviously not be included here...
 const api = {
   key: '209d013b886466ecf743dce3799e8925',
   base: "https://api.openweathermap.org/data/2.5/"
 }
+
+const secretWords = [
+  'laser', 'cat', 'laser cat', 'lilbub',
+  'canihascheeseburger', 'cheeseburger', 'lolcat',
+  'konami', 'rosebud', 'howdoyouturnthison',
+  'asdf'];
 
 const App = () => {
 
@@ -26,6 +29,7 @@ const App = () => {
   const [error, setError] = useState(false);
   const [errorLocation, setErrorLocation] = useState('');
   const [showSplashScreen, setShowSplashScreen] = useState(!weather[0]);
+  const [hasCheeseBurger, setHasCheeseBurger] = useState(false); //Laser cat
 
   useEffect(() => {
     //Update local storage with new weather data
@@ -34,25 +38,31 @@ const App = () => {
     weather[0] && changeBackColor(weather[0]);
     //Start splashscreen if we don't have any weather
     showSplashScreen && enterSplashScreen(document.getElementById("splash-title"), document.getElementById("splash-field"));
+    //Attach onclicks to all elements in lazer cat mode
   });
 
   //Get weather from API and put the result in weather
   const getWeather = (loc) => {
-    // console.log("getting weather");
-    fetch(`${api.base}weather?q=${loc}&units=metric&APPID=${api.key}`)
-      .then(res => res.json())
-      .then(result => {
-        (result.cod === "404") ? (
-          setError(true),
-          setErrorLocation(location),
-          setLocation('')
-        )
-        : (
-          setWeather(updateWeather(result)),
-          setLocation(''),
-          setError(false)
+    // If you write some secret word
+    if(secretWords.includes(loc.toLowerCase())) {
+      setHasCheeseBurger(true);
+    }
+    else{
+      fetch(`${api.base}weather?q=${loc}&units=metric&APPID=${api.key}`)
+        .then(res => res.json())
+        .then(result => {
+          (result.cod === "404") ? (
+            setError(true),
+            setErrorLocation(location),
+            setLocation('')
           )
-      })
+          : (
+            setWeather(updateWeather(result)),
+            setLocation(''),
+            setError(false)
+            )
+        })
+    }
   }
 
   //Only do a search when the user presses 'Enter'. Remove splashscreen if present
@@ -61,6 +71,7 @@ const App = () => {
       getWeather(location);
       (showSplashScreen) && removeSplashScreen();
       e.target.blur();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
@@ -116,6 +127,7 @@ const App = () => {
     (sky === "Clear") ? element.classList.add("clear")
     : (sky === "Clouds") ? element.classList.add("clouds")
     : (sky === "Rain") ? element.classList.add("rain")
+    : (sky === "Mist") ? element.classList.add("clouds")
     : console.log(`The weather doesn't match any condition. It's ${sky}`);
 
     //If there's night
@@ -168,31 +180,8 @@ const App = () => {
       }
 
       <div className="app__wrapper">
-        {/*<Autocomplete
-            getItemValue={(item) => item.name}
-            items={Cities}
-            renderItem={(item, isHighlighted) =>
-              <div key={item.id} className={`item ${isHighlighted ? 'item-highlighted' : ''}`}>
-                {item.name}
-              </div>
-            }
-            renderMenu={children => (
-              <div className="menu">
-                {children.slice(0,3)}
-              </div>
-            )}
-            inputProps={{
-              placeholder: "Oslo, Paris..."
-            }}
-            value={location}
-            shouldItemRender={item => {
-              //console.log(item.name.toLowerCase().indexOf(location.toLowerCase()) !== -1 );
-              return location.length >= 3 && item.name.toLowerCase().indexOf(location.toLowerCase()) !== -1
-            }}
-            onChange={e => setLocation(e.target.value)}
-            //onSelect={getWeather(location)}
-          />*/}
         <input
+          id="search-field"
           type="text"
           className="app__search-field"
           placeholder="Oslo, Paris..."
@@ -210,10 +199,23 @@ const App = () => {
               { weather.map((element, key) => {
                   if (key === 0) { return null }
                   return (
-                    <div key={key} onClick={() => {
-                      getWeather(element.name);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }} className="app__history-element">
+                    <div
+                      className="app__history-element"
+                      key={key}
+                      onClick={(e) => {
+                        getWeather(element.name);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        e.currentTarget.blur();
+                      }}
+                      tabIndex={0}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          getWeather(element.name);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                          e.target.blur();
+                        }
+                      }}
+                    >
                       <div className="app__history-element-info">
                         <h1>{Math.round(element.temp)}°&nbsp;</h1>
                         <h1>{element.name}</h1>
@@ -232,6 +234,7 @@ const App = () => {
           </div>
           }
       </div>
+      <LaserCat hasCheeseBurger={hasCheeseBurger}/>
     </div>
   );
 }

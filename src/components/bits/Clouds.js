@@ -36,8 +36,9 @@ const Cloud = () => {
   //constants for cloud size and position
   const cloudWidth = Math.random()*(2.5-1)+1;
   const cloudSize = [cloudWidth, cloudWidth];
-  const cloudMinX = -1.8+cloudWidth/2;
-  const cloudMaxX = 1.8-cloudWidth/2;
+  //Frustum is +-1.8 large
+  const cloudMinX = -1.6+cloudWidth/2;
+  const cloudMaxX = 1.6-cloudWidth/2;
   const cloudPosition = [Math.random()*(cloudMaxX-cloudMinX)+cloudMinX, Math.random()*(cloudMaxX-cloudMinX)+cloudMinX,1];
   const cloudRotation = Math.random()*Math.PI*2;
 
