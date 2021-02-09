@@ -44,6 +44,7 @@ const Weather = (props) => {
 
     setMainStatement(phrases[phraseIndex]);
     setSideStatement(windRainStatement);
+    console.log(rainIndex);
 
     return phraseIndex;
   }
